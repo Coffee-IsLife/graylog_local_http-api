@@ -248,8 +248,3 @@ Damit steht die Funktion `log "Nachricht"` zur Verfügung, welche automatisch mi
 - Läuft der Service als root (z.B. weil ein Action-Script root-Rechte benötigt), sollte dies durch gezielte `sudo`-Regeln pro Kommando statt eines pauschalen Root-Service umgesetzt werden.
 
 ---
-
-## Lizenz
-
-MIT License – siehe [LICENSE](./LICENSE)
----
