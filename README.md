@@ -1,7 +1,7 @@
 ---
 # graylog-webhook
 
-Ein leichtgewichtiger Node.js-Webhook-Listener, der als Ersatz für die **Graylog Small Business "Legacy Alert Notification" Script-Callbacks** dient. Graylog triggert einen HTTP-Call an diesen Service, welcher dann anhand des `action`-Parameters ein entsprechendes Shell-Script mit den relevanten Feldern aus der Alert-Message aufruft.
+Ein leichtgewichtiger Node.js-Webhook-Listener, der als Ersatz für die **"Legacy Alert Notification" Script-Callbacks** bzw. **Graylog Small Business "Script Notification"** dient. Graylog triggert einen HTTP-Call an diesen Service, welcher dann anhand des `action`-Parameters ein entsprechendes Shell-Script mit den relevanten Feldern aus der Alert-Message aufruft.
 
 ## Hintergrund
 
