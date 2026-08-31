@@ -150,6 +150,7 @@ Restart=on-failure
 RestartSec=5
 Environment=PORT=8123
 Environment=HOST=127.0.0.1
+Environment=NODE_ENV=production
 
 [Install]
 WantedBy=multi-user.target
@@ -213,6 +214,9 @@ curl -X POST http://127.0.0.1:8123/alert/mail_to_user \
       }
     ]
   }'
+
+##  oder komplettes json:
+
 ```
 
 ---
@@ -255,6 +259,16 @@ Damit steht die Funktion `log "Nachricht"` zur Verfügung, welche automatisch mi
 
 - Der Service bindet standardmäßig nur auf `127.0.0.1` – **niemals auf `0.0.0.0` exponieren**, außer bewusst mit zusätzlichem Reverse-Proxy/Firewall-Schutz.
 - Läuft der Service als root (z.B. weil ein Action-Script root-Rechte benötigt), sollte dies durch gezielte `sudo`-Regeln pro Kommando statt eines pauschalen Root-Service umgesetzt werden.
+
+**Beispiel für eine sichere `/etc/sudoers.d/graylog-webhook` Konfiguration:**
+Wenn deine Action `block_client.sh` IP-Adressen via `iptables` sperren muss, erlaube dem User *nur* diesen Befehl ohne Passwort (oder andere befehle wie z.b. postcat):
+
+```text
+graylog-webhook ALL=(ALL) NOPASSWD: /usr/sbin/iptables *
+graylog-webhook ALL=(root) NOPASSWD: /usr/sbin/postcat /var/spool/postfix/*
+```
+Im Shell-Script nutzt du dann einfach `sudo /usr/sbin/iptables ...`.\
+Die * (wildcards) in der sudoers stehen dafür, dass parameter übergeben werden dürfen. - für `postcat` gibt es die Einschränkung, dass die Datei auch in der postqueue `/var/spool/postfix/` irgendwo liegen muss.
 
 ---
 
