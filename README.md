@@ -184,6 +184,7 @@ Im Graylog Event-Definition / Notification-Setup eine **HTTP Notification** anle
 - **URL:** `http://127.0.0.1:8123/alert/<action>`
 - **Method:** `POST`
 - **Header:** `X-Api-Key: <dein-api-key>`
+- **Send API Key/Secret as Header:** `Enable this Checkbox`
 - **Body:** Graylog schickt hier automatisch den vollständigen Event-Payload (inkl. `backlog`) mit – dieser wird 1:1 an den Endpunkt durchgereicht.
 
 `<action>` ist einer der unterstützten Werte, z.B.:
