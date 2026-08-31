@@ -157,10 +157,6 @@ app.post('/alert/:action', apiKeyAuth, (req, res) => {
       return handleMailToUser(eventData, pid, res, false);
     case 'mail_to_user_batv':
       return handleMailToUser(eventData, pid, res, true);
-    case 'ban_host_sonicwall_radius':
-      return handleBanHostSonicwallRadius(eventData, pid, res);
-    case 'ban_host_sonicwall_dynamic':
-      return handleBanHostSonicwallDynamic(eventData, pid, res);
     case 'sms_on_crit':
       return handleSmsOnCrit(eventData, pid, res);
     case 'block_client':
