@@ -70,9 +70,18 @@ function runScript(scriptName, args, pid, res) {
     detached: true,
     stdio: 'ignore',
   });
+  child.on('close', (code) => {
+    log(pid, `${timestamp()} script finished (exit code: ${code})`);
+    log(pid, '============================================');
+  });
+
+  child.on('error', (err) => {
+    log(pid, `${timestamp()} script failed to start: ${err.message}`);
+    log(pid, '============================================');
+  });
+
   child.unref();
 
-  log(pid, '============================================');
   res.status(200).json({ status: 'ok', pid });
 }
 
