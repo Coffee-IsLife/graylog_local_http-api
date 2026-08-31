@@ -221,6 +221,13 @@ curl -X POST http://127.0.0.1:8123/alert/mail_to_user \
 
 ### Neue Action hinzufügen
 
+> **⚠️ Wichtig: Case-Sensitivity der Felder**
+> Die Feldnamen, die aus der Graylog-Alert-Message extrahiert werden (z.B. `From`, `To`, `Timestamp`), 
+> werden **case-sensitiv** ausgelesen. `from` und `From` werden als unterschiedliche Felder behandelt.
+> Achte darauf, dass die Schreibweise in deiner Graylog-Notification-Template exakt mit der 
+> Schreibweise übereinstimmt, die in `server.js` im jeweiligen `handle...()`-Case erwartet wird.
+
+
 1. Neues Shell-Script unter `actions/` ablegen, z.B. `actions/my_custom_action.sh`
 2. Ausführbar machen: `chmod +x actions/my_custom_action.sh`
 3. In `server.js` einen neuen `handle...()`-Handler bauen, der die gewünschten Felder aus `eventData.backlog[].fields` extrahiert und als CLI-Argumente an `runScript()` übergibt
@@ -229,6 +236,7 @@ curl -X POST http://127.0.0.1:8123/alert/mail_to_user \
 ### Bestehende Scripts anpassen
 
 Alle Scripts in `actions/` sind unabhängig voneinander und werden mit klassischen POSIX-Flags (`-t`, `-z`, `-a` etc.) aufgerufen – analog zu `argparse` im ursprünglichen Python-Ansatz. Passe die Argumentliste in der jeweiligen `handle...()`-Funktion in `server.js` an, falls sich die benötigten Felder ändern.
+
 
 ### Logging
 
@@ -249,3 +257,9 @@ Damit steht die Funktion `log "Nachricht"` zur Verfügung, welche automatisch mi
 - Läuft der Service als root (z.B. weil ein Action-Script root-Rechte benötigt), sollte dies durch gezielte `sudo`-Regeln pro Kommando statt eines pauschalen Root-Service umgesetzt werden.
 
 ---
+
+## Troubleshooting
+
+- **Script erhält leere/fehlende Parameter (z.B. `-f ""`)**
+  Prüfe, ob die Feldnamen in der Graylog-Notification-Message exakt (case-sensitiv!) mit den 
+  in `server.js` erwarteten Keys übereinstimmen. `From` ≠ `from` ≠ `FROM`.
